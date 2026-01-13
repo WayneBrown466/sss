@@ -8,5 +8,5 @@ Route::get('/venues/create', [VenueController::class, 'create'])->name('venues.c
 Route::post('/venues', [VenueController::class, 'createNewVenue'])->name('venues.createNewVenue');
 Route::get('/venues/{id}', [VenueController::class, 'show'])->name('venues.show');
 Route::get('/venues/{id}/edit', [VenueController::class, 'edit'])->name('venues.edit');
+Route::put('/venues/{id}', [VenueController::class, 'update'])->name('venues.update');
 Route::delete('/venues/{id}', [VenueController::class, 'delete'])->name('venues.delete');
-
