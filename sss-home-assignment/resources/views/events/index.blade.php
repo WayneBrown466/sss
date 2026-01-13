@@ -29,8 +29,8 @@
                 @foreach($events as $event)
                     <tr>
                         <td>{{ $event->title }}</td>
-                        <td>{{ $event->start_datetime }}</td>
-                        <td>{{ $event->end_datetime }}</td>
+                        <td>{{ \Carbon\Carbon::parse($event->start_datetime)->format('d M Y, H:i') }}</td>
+                        <td>{{ \Carbon\Carbon::parse($event->end_datetime)->format('d M Y, H:i') }}</td>
                         <td>{{ ucfirst($event->status) }}</td>
                         <td>{{ optional($event->venue)->name }}</td>
                         <td>

@@ -31,8 +31,4 @@ class Event extends Model
         return $this->belongsToMany(User::class, 'attendees', 'event_id', 'user_id')
                     ->withTimestamps();
     }
-
-    public function attendeeRecords(){
-        return $this->hasMany(Attendee::class, 'event_id');
-    }
 }
