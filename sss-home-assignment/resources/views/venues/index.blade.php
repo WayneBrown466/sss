@@ -8,7 +8,7 @@
         </div>
 
         @if($venues->count())
-        <table class="table table-striped table-hover">
+        <table class="table table-bordered table-striped">
             <thead class="table-light">
                 <tr>
                     <th>#</th>

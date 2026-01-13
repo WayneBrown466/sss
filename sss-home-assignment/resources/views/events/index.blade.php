@@ -1,0 +1,59 @@
+@extends('layouts.app')
+
+@section('content')
+    <div class="container mt-4">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h2>All Events</h2>
+            <a href="{{ route('events.create') }}" class="btn btn-success">+ Create New Event</a>
+        </div>
+
+        @if(session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
+
+        @if($events->count())
+        <table class="table table-bordered table-striped">
+            <thead class="table-light">
+                <tr>
+                    <th>Title</th>
+                    <th>Start Date & Time</th>
+                    <th>End Date & Time</th>
+                    <th>Status</th>
+                    <th>Venue</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($events as $event)
+                    <tr>
+                        <td>{{ $event->title }}</td>
+                        <td>{{ $event->start_datetime }}</td>
+                        <td>{{ $event->end_datetime }}</td>
+                        <td>{{ ucfirst($event->status) }}</td>
+                        <td>{{ optional($event->venue)->name }}</td>
+                        <td>
+                            <a href="{{ route('events.show', $event->id) }}" class="btn btn-sm btn-info">View</a>
+                            <a href="{{ route('events.edit', $event->id) }}" class="btn btn-sm btn-warning">Edit</a>
+                            <form action="{{ route('events.delete', $event->id) }}" method="POST" class="d-inline">
+                                @csrf
+                                @method('DELETE')
+                                <button 
+                                    type="submit" 
+                                    class="btn btn-sm btn-danger"
+                                    onclick="return confirm('Are you sure you want to delete this event?')"
+                                >
+                                    Delete
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+        @else
+            <p class="text-muted">No events found.</p>
+        @endif
+    </div>
+@endsection

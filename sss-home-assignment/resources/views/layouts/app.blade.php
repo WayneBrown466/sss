@@ -19,10 +19,10 @@
             <div class="collapse navbar-collapse ms-4" id="navbarToggler">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a href="/" class="nav-link">Venues</a>
-                    </li>
+                        <a href="/" class="nav-link" aria-current="page">Events</a>
+                    </li>    
                     <li class="nav-item">
-                        <a href="#" class="nav-link" aria-current="page">Events</a>
+                        <a href="/venues" class="nav-link">Venues</a>
                     </li>
                 </ul>
             </div>
