@@ -13,8 +13,8 @@ class VenueController extends Controller
     }
 
     function create(){
-        $venues = new Venue();
-        return view('venues.create', compact('venues'));
+        $venue = new Venue();
+        return view('venues.create', compact('venue'));
     }
 
     public function createNewVenue(Request $request)
@@ -59,12 +59,12 @@ class VenueController extends Controller
 
         $venue = Venue::find($id);
         $venue->update($request->all());
-        return redirect()->route('venues.index')->with('message', 'Venue has been updated successfully!');
+        return redirect()->route('venues.index')->with('success', 'Venue has been updated successfully!');
     }
 
     function delete($id){
         $venue = Venue::find($id);
         $venue->delete();
-        return redirect()->route('venues.index')->with('message', 'Venue has been deleted successfully!');
+        return redirect()->route('venues.index')->with('success', 'Venue has been deleted successfully!');
     }
 }

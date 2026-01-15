@@ -84,7 +84,6 @@
                         @endforeach
                     </select>
                 </div>
-
             </div>
         </div>
 
@@ -132,11 +131,45 @@
                         >
                     </div>
                 </div>
-
             </div>
         </div>
 
-        <button type="submit" class="btn btn-primary">Update Event</button>
+        <div class="card mb-4">
+            <div class="card-header fw-bold">Attendees</div>
+            <div class="card-body">
+                @if($event->attendees->count())
+                    <ul>
+                        @foreach($event->attendees as $user)
+                            <li class="mb-2">
+                                <div class="row align-items-center">
+                                    <div class="col-1" style="min-width:170px">
+                                        {{ $user->name }} {{ $user->surname }}
+                                    </div>
+
+                                    <div class="col p-0">
+                                        <form action="{{ route('events.attendees.delete', [$event->id, $user->id]) }}"
+                                            method="POST"
+                                            onsubmit="return confirm('Remove this attendee?')"
+                                        >
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-sm btn-danger">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </li>
+                        @endforeach
+                    </ul>
+                @else
+                    <p class="text-muted">No attendees yet.</p>
+                @endif
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Update</button>
+        <a href="{{ route('attendees.create', $event->id) }}" class="btn btn-success">New Attendee</a>
         <a href="{{ route('events.index') }}" class="btn btn-secondary">Cancel</a>
     </form>
 </div>
