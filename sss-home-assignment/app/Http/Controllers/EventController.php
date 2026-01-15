@@ -60,4 +60,44 @@ class EventController extends Controller
 
         return redirect()->route('events.index')->with('success', 'Event updated successfully!');
     }
+
+    function create(){
+        $event = new Event();
+        $venues = Venue::all();
+        return view('events.create', compact('event', 'venues'));
+    }
+
+    public function createNewEvent(Request $request){
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'required|string|max:255',
+            'start_datetime' => 'required|date|after_or_equal:now',
+            'end_datetime' => 'required|date|after:start_datetime',
+        
+            'organizer_name' => 'required|string|max:255',
+            'organizer_surname' => 'required|string|max:255',
+            'organizer_email' => 'required|email'
+        ]);
+
+        $organizer = User::firstOrCreate(
+            ['email' => $request->organizer_email],
+            [
+                'name' => $request->organizer_name,
+                'surname' => $request->organizer_surname,
+                'role' => 'organizer'
+            ]
+        );
+
+        Event::create([
+            'title' => $request->title,
+            'description' => $request->description,
+            'start_datetime' => $request->start_datetime,
+            'end_datetime' => $request->end_datetime,
+            'status' => 'scheduled',
+            'organizer_id' => $organizer->id,
+            'venue_id' => $request->venue_id
+        ]);
+
+        return redirect()->route('events.index')->with('success', 'Event has been created successfully!');
+    }
 }
