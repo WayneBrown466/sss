@@ -36,15 +36,15 @@
                         <td>
                             <a href="{{ route('events.show', $event->id) }}" class="btn btn-sm btn-info">View</a>
                             <a href="{{ route('events.edit', $event->id) }}" class="btn btn-sm btn-warning">Edit</a>
-                            <form action="{{ route('events.delete', $event->id) }}" method="POST" class="d-inline">
+                            <form action="{{ route('events.cancelEvent', $event->id) }}" method="POST" class="d-inline">
                                 @csrf
-                                @method('DELETE')
+                                @method('PATCH')
                                 <button 
                                     type="submit" 
                                     class="btn btn-sm btn-danger"
-                                    onclick="return confirm('Are you sure you want to delete this event?')"
+                                    onclick="return confirm('Are you sure you want to cancel this event?')"
                                 >
-                                    Delete
+                                    Cancel
                                 </button>
                             </form>
                         </td>

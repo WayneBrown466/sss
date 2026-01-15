@@ -12,7 +12,7 @@ Route::post('/events', [EventController::class, 'createNewEvent'])->name('events
 Route::get('/events/{id}', [EventController::class, 'show'])->name('events.show');
 Route::get('/events/{id}/edit', [EventController::class, 'edit'])->name('events.edit');
 Route::put('/events/{id}', [EventController::class, 'update'])->name('events.update');
-Route::delete('/events/{id}', [EventController::class, 'delete'])->name('events.delete');
+Route::patch('/events/{id}/cancel', [EventController::class, 'cancelEvent'])->name('events.cancelEvent');
 
 Route::get('/events/attendees/create/{eventid}', [AttendeeController::class, 'create'])->name('attendees.create');
 Route::post('/events/{eventid}/attendees', [AttendeeController::class, 'createNewAttendee'])->name('attendees.createNewAttendee');

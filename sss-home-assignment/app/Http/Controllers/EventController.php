@@ -100,4 +100,19 @@ class EventController extends Controller
 
         return redirect()->route('events.index')->with('success', 'Event has been created successfully!');
     }
+
+    function cancelEvent($eventId){
+        $event = Event::find($eventId);
+
+        if ($event->status === 'cancelled') {
+        return redirect()->route('events.index')
+            ->with('info', 'Event is already cancelled.');
+        }
+
+        $event->update([
+            'status' => 'cancelled'
+        ]);
+
+        return redirect()->route('events.index')->with('success', 'Event has been cancelled successfully!');
+    }
 }
