@@ -28,6 +28,35 @@ class VenueController extends Controller
             'capacity' => 'required|numeric|min:1'
         ]);
 
+        $fullAddress = "$request->address $request->city $request->country";
+        $apiKey = config('services.geocoding.key');
+        $response = Http::get('https://maps.googleapis.com/maps/api/geocode/json', [
+            'address' => $fullAddress,
+            'key' => $apiKey,
+        ]);
+
+        $data = $response->json();
+
+        if (
+            $data['status'] !== 'OK' ||
+            empty($data['results'])
+        ) {
+            return back()
+                ->withErrors(['address' => 'The address could not be validated. Please enter a valid address.'])
+                ->withInput();
+        }
+
+        $hasRoute = collect($data['results'][0]['address_components'])
+            ->pluck('types')
+            ->flatten()
+            ->contains('route');
+
+        if (!$hasRoute) {
+            return back()
+                ->withErrors(['address' => 'Street name does not exist.'])
+                ->withInput();
+        }
+
         Venue::create([
             'name' => $request->name,
             'address' => $request->address,
@@ -42,7 +71,7 @@ class VenueController extends Controller
     function show($id){
         $venue = Venue::find($id);
 
-        $fullAddress = "$venue->address $venue->city";
+        $fullAddress = "$venue->address $venue->city $venue->country";
         $apiKey = config('services.geocoding.key');
         $response = Http::get('https://maps.googleapis.com/maps/api/geocode/json', [
             'address' => $fullAddress,
@@ -75,6 +104,35 @@ class VenueController extends Controller
             'country' => 'required|string|max:255',
             'capacity' => 'required|numeric|min:1'
         ]);
+
+        $fullAddress = "$request->address $request->city $request->country";
+        $apiKey = config('services.geocoding.key');
+        $response = Http::get('https://maps.googleapis.com/maps/api/geocode/json', [
+            'address' => $fullAddress,
+            'key' => $apiKey,
+        ]);
+
+        $data = $response->json();
+
+        if (
+            $data['status'] !== 'OK' ||
+            empty($data['results'])
+        ) {
+            return back()
+                ->withErrors(['address' => 'The address could not be validated. Please enter a valid address.'])
+                ->withInput();
+        }
+
+        $hasRoute = collect($data['results'][0]['address_components'])
+            ->pluck('types')
+            ->flatten()
+            ->contains('route');
+
+        if (!$hasRoute) {
+            return back()
+                ->withErrors(['address' => 'Street name does not exist.'])
+                ->withInput();
+        }
 
         $venue = Venue::find($id);
         $venue->update($request->all());
