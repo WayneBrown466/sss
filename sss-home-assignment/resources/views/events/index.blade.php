@@ -4,6 +4,10 @@
     <div class="container mt-4">
         <div class="d-flex justify-content-between align-items-center mb-3">
             <h2>All Events</h2>
+            <div class="d-flex gap-2">
+                <input type="checkbox" id="showActiveOnly" {{ request('active_only') ? 'checked' : '' }}>
+                <label for="showActiveOnly">Show only scheduled events</label>
+            </div>
             <a href="{{ route('events.create') }}" class="btn btn-success">+ Create New Event</a>
         </div>
 
@@ -56,4 +60,15 @@
             <p class="text-muted">No events found.</p>
         @endif
     </div>
+    <script>
+        document.getElementById('showActiveOnly').addEventListener('change', function() {
+            const url = new URL(window.location.href);
+            if(this.checked) {
+                url.searchParams.set('active_only', '1');
+            } else {
+                url.searchParams.delete('active_only');
+            }
+            window.location.href = url.toString();
+        });
+    </script>
 @endsection

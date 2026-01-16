@@ -15,17 +15,4 @@ class User extends Model
         'email',
         'role'
     ];
-
-    public function organizedEvents(){
-        return $this->hasMany(Event::class, 'organizer_id');
-    }
-
-    public function attendingEvents(){
-        return $this->belongsToMany(Event::class, 'attendees', 'user_id', 'event_id')
-                    ->withTimestamps();
-    }
-
-    public function attendeeRecords(){
-        return $this->hasMany(Attendee::class, 'user_id');
-    }
 }

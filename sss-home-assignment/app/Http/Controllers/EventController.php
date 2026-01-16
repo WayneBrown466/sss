@@ -9,8 +9,14 @@ use App\Models\Venue;
 
 class EventController extends Controller
 {
-    function index(){
-        $events = Event::all();
+    function index(Request $request){
+        if($request->active_only){
+            $events = Event::where('status', '!=', 'cancelled')
+                            ->orderBy('start_datetime', 'asc')
+                            ->get();
+        }else{
+            $events = Event::orderBy('start_datetime', 'asc')->get();
+        }
         return view('events.index', compact('events'));
     }
 
