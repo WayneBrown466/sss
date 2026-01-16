@@ -31,6 +31,8 @@
     </nav>
 
     <div class="mt-3">
+        @include('partials.alerts')
+
         @yield('content')
     </div>
 

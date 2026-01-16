@@ -10,6 +10,8 @@ use App\Models\Venue;
 class EventController extends Controller
 {
     function index(Request $request){
+        // When the checkbox is ticked only show events which are not 'cancelled'.
+        // Order the events by start_datetime, starting with the earliest.
         if($request->active_only){
             $events = Event::where('status', '!=', 'cancelled')
                             ->orderBy('start_datetime', 'asc')
@@ -35,7 +37,7 @@ class EventController extends Controller
         $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string',
-            'start_datetime' => 'required|date|after_or_equal:now',
+            'start_datetime' => 'required|date',
             'end_datetime' => 'required|date|after:start_datetime',
         
             'organizer_name' => 'required|string|max:255',
@@ -43,7 +45,8 @@ class EventController extends Controller
             'organizer_email' => 'required|email'
         ]);
 
-        // Either retrieve the user from the database and update the name and surname, or create a new user.
+        // If a User with the same email exists, retrieve it and update the name and surname
+        // else create a new User with the given name, surname and role.
         $organizer = User::updateOrCreate(
             ['email' => $request->organizer_email],
             [
@@ -77,7 +80,7 @@ class EventController extends Controller
         $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string|max:255',
-            'start_datetime' => 'required|date|after_or_equal:now',
+            'start_datetime' => 'required|date',
             'end_datetime' => 'required|date|after:start_datetime',
         
             'organizer_name' => 'required|string|max:255',
@@ -85,6 +88,8 @@ class EventController extends Controller
             'organizer_email' => 'required|email'
         ]);
 
+        // If a User with the same email exists, retrieve it
+        // else create a new User with the given name, surname, and role.
         $organizer = User::firstOrCreate(
             ['email' => $request->organizer_email],
             [

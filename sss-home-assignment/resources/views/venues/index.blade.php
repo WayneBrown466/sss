@@ -25,7 +25,7 @@
                         <td>{{ $venue->city }}</td>
                         <td>
                             <a href="{{ route('venues.show', $venue->id) }}" class="btn btn-sm btn-info">View</a>
-                            <a href="{{ route('venues.edit', $venue->id) }}" class="btn btn-sm btn-primary">Edit</a>
+                            <a href="{{ route('venues.edit', $venue->id) }}" class="btn btn-sm btn-warning">Edit</a>
                             <form action="{{ route('venues.delete', $venue->id) }}" method="POST" class="d-inline">
                                 @csrf
                                 @method('DELETE')

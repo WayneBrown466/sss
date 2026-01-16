@@ -11,12 +11,6 @@
             <a href="{{ route('events.create') }}" class="btn btn-success">+ Create New Event</a>
         </div>
 
-        @if(session('success'))
-            <div class="alert alert-success">
-                {{ session('success') }}
-            </div>
-        @endif
-
         @if($events->count())
         <table class="table table-bordered table-striped">
             <thead class="table-light">

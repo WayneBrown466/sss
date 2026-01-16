@@ -28,6 +28,8 @@ class AttendeeController extends Controller
             'email' => 'required|email'
         ]);
 
+        // If a User with the same email exists, retrieve it
+        // else create a new User with the given name, surname, and role.
         $user = User::firstOrCreate(
             ['email' => $request->email],
             [

@@ -17,7 +17,7 @@
                         {{ ucfirst($event->status) }}
                     </span>
                 </p>
-                <p><strong>Organizer:</strong> {{ $event->organizer->name }}</p>
+                <p><strong>Organizer:</strong> {{ $event->organizer->name }} {{ $event->organizer->surname }}</p>
                 <p><strong>Venue:</strong> {{ $event->venue->name }}</p>
                 <hr>
                 <h5>Attendees ({{ $event->attendees->count() }})</h5>

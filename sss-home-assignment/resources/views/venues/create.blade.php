@@ -3,18 +3,6 @@
 @section('content')
     <div class="container mt-4">
         <h2>Create New Venue</h2>
-
-        <!-- Display validation errors -->
-        @if ($errors->any())
-            <div class="alert alert-danger">
-                <ul class="mb-0">
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
-
         <form action="{{ route('venues.createNewVenue') }}" method="POST">
             @csrf
 

@@ -30,6 +30,7 @@ class VenueController extends Controller
 
         $fullAddress = "$request->address $request->city $request->country";
         $apiKey = config('services.geocoding.key');
+        // GET request to Google's geocoding API to check if the address inputted is a real street
         $response = Http::get('https://maps.googleapis.com/maps/api/geocode/json', [
             'address' => $fullAddress,
             'key' => $apiKey,
@@ -37,6 +38,7 @@ class VenueController extends Controller
 
         $data = $response->json();
 
+        // If the API didn't return a 200 response return an error message
         if (
             $data['status'] !== 'OK' ||
             empty($data['results'])
@@ -46,11 +48,13 @@ class VenueController extends Controller
                 ->withInput();
         }
 
+        // Checks if the geocoding result contains a real street by checking if the collection contains a 'route' type
         $hasRoute = collect($data['results'][0]['address_components'])
             ->pluck('types')
             ->flatten()
             ->contains('route');
 
+        // If the address inputted is not a real street return an error message
         if (!$hasRoute) {
             return back()
                 ->withErrors(['address' => 'Street name does not exist.'])
@@ -73,6 +77,7 @@ class VenueController extends Controller
 
         $fullAddress = "$venue->address $venue->city $venue->country";
         $apiKey = config('services.geocoding.key');
+        // GET request to Google's geocoding API to retrieve the address coordinates
         $response = Http::get('https://maps.googleapis.com/maps/api/geocode/json', [
             'address' => $fullAddress,
             'key' => $apiKey
@@ -80,7 +85,9 @@ class VenueController extends Controller
 
         $data = $response->json();
 
+        // Check if the API response data contains valid coordinates
         if (!empty($data['results'][0]['geometry']['location'])) {
+            // Retrieve the latitude and longitude from the API response data
             $latitude = $data['results'][0]['geometry']['location']['lat'];
             $longitude = $data['results'][0]['geometry']['location']['lng'];
         } else {
@@ -107,6 +114,7 @@ class VenueController extends Controller
 
         $fullAddress = "$request->address $request->city $request->country";
         $apiKey = config('services.geocoding.key');
+        // GET request to Google's geocoding API to check if the address inputted is a real street
         $response = Http::get('https://maps.googleapis.com/maps/api/geocode/json', [
             'address' => $fullAddress,
             'key' => $apiKey,
@@ -114,6 +122,7 @@ class VenueController extends Controller
 
         $data = $response->json();
 
+        // If the API didn't return a 200 response return an error message
         if (
             $data['status'] !== 'OK' ||
             empty($data['results'])
@@ -123,11 +132,13 @@ class VenueController extends Controller
                 ->withInput();
         }
 
+        // Checks if the geocoding result contains a real street by checking if the collection contains a 'route' type
         $hasRoute = collect($data['results'][0]['address_components'])
             ->pluck('types')
             ->flatten()
             ->contains('route');
 
+        // If the address inputted is not a real street return an error message
         if (!$hasRoute) {
             return back()
                 ->withErrors(['address' => 'Street name does not exist.'])
