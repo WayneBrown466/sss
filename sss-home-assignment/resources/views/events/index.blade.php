@@ -54,6 +54,9 @@
             <p class="text-muted">No events found.</p>
         @endif
     </div>
+
+    <!-- Called when the "Show only active events" checkbox is changed.
+        Updates the URL query parameter 'active_only' to filter events. -->
     <script>
         document.getElementById('showActiveOnly').addEventListener('change', function() {
             const url = new URL(window.location.href);
