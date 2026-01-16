@@ -33,18 +33,21 @@
                         <td>{{ optional($event->venue)->name }}</td>
                         <td>
                             <a href="{{ route('events.show', $event->id) }}" class="btn btn-sm btn-info">View</a>
-                            <a href="{{ route('events.edit', $event->id) }}" class="btn btn-sm btn-warning">Edit</a>
-                            <form action="{{ route('events.cancelEvent', $event->id) }}" method="POST" class="d-inline">
-                                @csrf
-                                @method('PATCH')
-                                <button 
-                                    type="submit" 
-                                    class="btn btn-sm btn-danger"
-                                    onclick="return confirm('Are you sure you want to cancel this event?')"
-                                >
-                                    Cancel
-                                </button>
-                            </form>
+
+                            @if($event->status !== 'cancelled')
+                                <a href="{{ route('events.edit', $event->id) }}" class="btn btn-sm btn-warning">Edit</a>
+                                <form action="{{ route('events.cancelEvent', $event->id) }}" method="POST" class="d-inline">
+                                    @csrf
+                                    @method('PATCH')
+                                    <button 
+                                        type="submit" 
+                                        class="btn btn-sm btn-danger"
+                                        onclick="return confirm('Are you sure you want to cancel this event?')"
+                                    >
+                                        Cancel
+                                    </button>
+                                </form>
+                            @endif
                         </td>
                     </tr>
                 @endforeach
