@@ -1,7 +1,23 @@
 @extends('layouts.app')
 
 @section('content')
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin=""/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
 <div class="container mt-4">
+    <div id="map" style="height: 300px;"></div>
+
+    <script>
+        const map = L.map('map').setView([{{ $latitude }}, {{ $longitude }}], 15);
+
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+            maxZoom: 19,
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        }).addTo(map);
+
+        const marker = L.marker([{{ $latitude }}, {{ $longitude }}]).addTo(map);
+        marker.bindPopup("<b>{{ $venue->name }}</b><br>{{ $venue->address . ' ' . $venue->city }}");
+    </script>
+
     <div class="card shadow-sm">
         <div class="card-header bg-primary text-white">
             <h4 class="mb-0">Venue Details</h4>

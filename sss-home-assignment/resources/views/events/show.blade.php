@@ -40,15 +40,13 @@
                 </a>
 
                 <div>
-                    <a href="{{ route('events.edit', $event->id) }}" class="btn btn-primary">
-                        Edit
-                    </a>
+                    <a href="{{ route('events.edit', $event->id) }}" class="btn btn-primary">Edit</a>
 
-                    <form action="{{ route('events.delete', $event->id) }}" method="POST" class="d-inline">
+                    <form action="{{ route('events.cancelEvent', $event->id) }}" method="POST" class="d-inline">
                         @csrf
-                        @method('DELETE')
+                        @method('PATCH')
                         <button class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this event?')">
-                            Delete
+                            Cancel
                         </button>
                     </form>
                 </div>

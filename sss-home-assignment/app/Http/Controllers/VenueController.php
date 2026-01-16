@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Venue;
+use Illuminate\Support\Facades\Http;
 
 class VenueController extends Controller
 {
@@ -40,7 +41,25 @@ class VenueController extends Controller
 
     function show($id){
         $venue = Venue::find($id);
-        return view('venues.show', compact('venue'));
+
+        $fullAddress = "$venue->address $venue->city";
+        $apiKey = config('services.geocoding.key');
+        $response = Http::get('https://maps.googleapis.com/maps/api/geocode/json', [
+            'address' => $fullAddress,
+            'key' => $apiKey
+        ]);
+
+        $data = $response->json();
+
+        if (!empty($data['results'][0]['geometry']['location'])) {
+            $latitude = $data['results'][0]['geometry']['location']['lat'];
+            $longitude = $data['results'][0]['geometry']['location']['lng'];
+        } else {
+            $latitude = null;
+            $longitude = null;
+        }
+        
+        return view('venues.show', compact('venue', 'longitude', 'latitude'));
     }
 
     function edit($id){

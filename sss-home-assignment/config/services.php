@@ -35,4 +35,7 @@ return [
         ],
     ],
 
+    'geocoding' => [
+        'key' => 'AIzaSyAX1u0GsI40HDS5lCTtRtOiM7oNFWO2tjg',
+    ],
 ];
